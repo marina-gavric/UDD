@@ -1,0 +1,35 @@
+<div class="midDiv">
+   
+<div fxLayout="row" fxLayoutAlign="center center">
+    <div fxLex="25%">
+    </div>
+    <div fxLex="50%" id="logForm">
+            <form [formGroup]="loginForm" (ngSubmit)= "login2(loginForm)">
+                    <h3>Login</h3>
+
+                <div>    
+                <mat-form-field>
+                                <mat-icon matPrefix>person</mat-icon>
+                                <input matInput placeholder="Enter username"  formControlName="username">
+                                <mat-error *ngIf="loginForm.get('username').hasError('required')">Username is required</mat-error>
+                    </mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field>
+                        <mat-icon matPrefix>vpn_key</mat-icon>
+                        <input matInput  type="password" placeholder="Enter password" formControlName="password">
+                        <mat-error *ngIf="loginForm.get('password').hasError('required')">Enter password</mat-error>
+                    </mat-form-field>
+                </div>
+                    <div class="midBtn">
+                        <button  mat-raised-button type="submit" color="white">Login</button>
+                    </div>
+            </form>
+            <div>If you don't have an account you can visit <a href="signup">Sign up</a></div>
+           
+
+    </div>
+    <div fxLex="25%">
+    </div>
+</div>
+</div>

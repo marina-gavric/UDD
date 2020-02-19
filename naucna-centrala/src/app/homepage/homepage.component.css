@@ -1,0 +1,25 @@
+.fill{
+    flex: 1 1 auto;
+}
+#background{
+    height: 70px;
+    vertical-align: top;
+}
+.mat-toolbar.mat-primary {
+    background: white;
+    color: #fff;
+  }
+.mat-toolbar{
+    background: #fff;
+}
+.titleId{
+    color: rgb(185, 147,59);
+}
+#bgImage{
+    background-image: url(../../assets/images/bookshelf.jpg);
+    background-repeat: repeat-x;
+    height: 270px;
+}
+.sep{
+    margin-left:20px !important;
+}

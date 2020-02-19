@@ -1,0 +1,35 @@
+<div class="midDiv">
+  
+<div fxLayout="row" fxLayoutAlign="center center">
+      <div fxLex="25%">
+      </div>
+      <div fxLex="50%" id="magForm">
+        <form #f="ngForm"  (ngSubmit)="onSubmit(f.value, f)" ngNativeValidate>
+                <h3>Register new magazine</h3>
+
+                <div *ngFor="let field of formFields" >
+                        <mat-form-field *ngIf="field.type.name=='string'  && field.id != 'password'">
+                             <input placeholder={{field.label}} type="text" matInput name={{field.id}} ngModel  *ngIf="field.type.name=='string'  && field.id != 'password'" >
+                        </mat-form-field>
+                        <mat-form-field  *ngIf="field.type.name=='long'">
+                                        <input matInput type="number" name={{field.id}} ngModel  *ngIf="field.type.name=='long'">
+                        </mat-form-field>
+                                           
+                        <mat-checkbox type="checkbox" name={{field.id}} ngModel  *ngIf="field.type.name=='boolean'">{{field.label}}</mat-checkbox>
+                        <label *ngIf="field.type.name=='enum'">Select areas of science:</label>
+               
+                        <mat-select name="{{field.id}}"  multiple ngModel *ngIf="field.type.name=='enum'">
+                                <mat-option *ngFor="let category of categories" value={{category.id}}>
+                                {{category.name}} 
+                                </mat-option>
+                        </mat-select>
+                </div>  
+                <div class="midBtn">
+                   <button  mat-raised-button type="submit" color="gray">Create</button>
+                </div>                      
+        </form>
+      </div>
+      <div fxLex="25%">
+      </div>
+</div>
+</div>

@@ -1,0 +1,21 @@
+<div class="midDiv">
+<div fxLayout="row" fxLayoutAlign="center center">
+    <div fxLex="25%">
+    </div>
+    <div fxLex="50%" id="appForm">
+    <form #f="ngForm" (ngSubmit)="onSubmit(f.value, f)"  ngNativeValidate>
+      <h3>Finish task</h3>
+      <div *ngFor="let field of formFields" >
+          <mat-checkbox type="checkbox" name={{field.id}} ngModel  *ngIf="field.type.name=='boolean'">Do you want to approve reviser?</mat-checkbox>
+      </div>
+      
+      <div class="midBtn">
+          <button  mat-raised-button type="submit" color="gray">Confirm</button>
+       </div> 
+    </form>
+</div>
+<div fxLex="25%">
+  </div>
+</div>
+</div>
+

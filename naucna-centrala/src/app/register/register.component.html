@@ -1,0 +1,41 @@
+<div class="midDiv" id="mainPart">
+  
+<div fxLayout="row" fxLayoutAlign="center center" id="f">
+  <div fxLex="20%">
+  </div>
+  <div fxLex="60%" id="logForm">
+      <div >          
+          <form #f="ngForm" (ngSubmit)="onSubmit(f.value, f)"  ngNativeValidate>
+              <h3>Register</h3>
+            <div *ngFor="let field of formFields" >
+                <mat-form-field *ngIf="field.type.name=='string'  && field.id != 'password'">
+                  <input placeholder={{field.label}} type="text" matInput name={{field.id}} ngModel  *ngIf="field.type.name=='string'  && field.id != 'password'" >
+                </mat-form-field>
+                <mat-form-field *ngIf="field.type.name=='long'">
+                    <input placeholder={{field.label}} type="number" matInput name={{field.id}} ngModel  *ngIf="field.type.name=='long'">
+                </mat-form-field>
+                <mat-form-field *ngIf="field.id=='password'">
+                    <mat-icon matPrefix>vpn_key</mat-icon>
+                    <input placeholder={{field.label}} type="password" matInput name={{field.id}} ngModel  *ngIf="field.id=='password'">
+                </mat-form-field>
+                <mat-checkbox type="checkbox" name={{field.id}} ngModel  *ngIf="field.type.name=='boolean'">Do you want to be reviser?</mat-checkbox>
+                <label *ngIf="field.type.name=='enum'">Select areas of science:</label>
+                <mat-select matInput name="{{field.id}}"  multiple ngModel *ngIf="field.type.name=='enum'">
+               <mat-label>Areas of science:</mat-label>
+                  <mat-option style="color: gray" *ngFor="let category of categories" value={{category.id}}>
+                    {{category.name}} 
+                  </mat-option>
+                </mat-select>
+            </div>
+            
+            <button  mat-raised-button type="submit" color="gray">Register</button>
+                           
+          </form>
+          </div>
+  </div>
+
+  <div fxLex="20%">
+  </div>
+
+</div>
+</div>

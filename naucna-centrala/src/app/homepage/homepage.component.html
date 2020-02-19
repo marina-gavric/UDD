@@ -1,0 +1,33 @@
+<div id="background">
+        <mat-toolbar  class="fixed-header">
+                <mat-toolbar-row>
+                        <span><img src="../../assets/images/logo.jpg" style="width:50px" ></span>
+                        <span class="titleId">Science Base</span>
+                        <span class="fill"></span>  
+                        <span class="sep"  (click)="logoutFunc()">Log out</span>
+                </mat-toolbar-row>
+        </mat-toolbar>
+</div>
+<div id="bgImage">
+</div>
+<div>
+   <button mat-raised-button color="primary" *ngIf="type=='EDITOR'" (click)="magForm()">Create Magazine</button>	
+</div>
+
+<div>
+        <button mat-raised-button color="primary" (click)="textForm()">Create Text</button>	
+</div>
+<div>
+        <mat-card class="mt-2" *ngFor="let task of tasks">
+                <mat-card-header>
+                    <mat-card-title> {{task.title}} </mat-card-title>
+                    <mat-card-subtitle>{{task.assignee}}</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                  {{task.name}}  
+                </mat-card-content>
+                <mat-card-actions>	
+                        <button mat-raised-button (click)="complete(task)">Start Task</button>	
+                </mat-card-actions>
+        </mat-card>
+</div>

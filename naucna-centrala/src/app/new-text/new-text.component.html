@@ -1,0 +1,27 @@
+<div class="midDiv">
+  
+    <div fxLayout="row" fxLayoutAlign="center center">
+          <div fxLex="25%">
+          </div>
+          <div fxLex="50%" id="magForm">
+            <form #f="ngForm"  (ngSubmit)="onSubmit(f.value, f)" ngNativeValidate>
+                    <h3>Choosing magazine</h3>    
+                    <div *ngFor="let field of formFields" >
+                            <mat-checkbox type="checkbox" name={{field.id}} ngModel  *ngIf="field.type.name=='boolean'">Do you want to add co-authorst?</mat-checkbox>
+                                    <label *ngIf="field.type.name=='enum'">Select magazine:</label>
+                   
+                            <mat-select name="{{field.id}}"   ngModel *ngIf="field.type.name=='enum'">
+                                    <mat-option *ngFor="let mag of magazines" value={{mag}}>
+                                        {{field.type.values[mag]}}
+                                    </mat-option>
+                            </mat-select>
+                    </div>  
+                    <div class="midBtn">
+                       <button  mat-raised-button type="submit" color="gray">Choose</button>
+                    </div>                      
+            </form>
+          </div>
+          <div fxLex="25%">
+          </div>
+    </div>
+    </div>

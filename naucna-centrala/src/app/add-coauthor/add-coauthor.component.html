@@ -1,0 +1,24 @@
+<div class="midDiv">
+        <div fxLayout="row" fxLayoutAlign="center center">
+              <div fxLex="25%">
+              </div>
+              <div fxLex="50%" id="fillForm">
+                <form #f="ngForm" (ngSubmit)="onSubmit(f.value, f)"  ngNativeValidate>
+                    <h3>Insert information</h3>       
+                    <div *ngFor="let field of formFields" >
+                        <mat-form-field *ngIf="field.type.name=='string'">
+                                    <input placeholder={{field.label}} type="text" matInput name={{field.id}} ngModel  *ngIf="field.type.name=='string'" >
+                        </mat-form-field>
+                        <mat-checkbox type="checkbox" name={{field.id}} ngModel  *ngIf="field.type.name=='boolean'">Do you want to add co-authorst?</mat-checkbox>
+    
+                        </div>                        
+                        <div class="midBtn">
+                                    <button  mat-raised-button type="submit" color="white">Confirm</button>
+                        </div>
+                </form>
+              </div>
+              <div fxLex="25%">
+              </div>
+        </div>
+    </div>
+    

@@ -1,0 +1,24 @@
+.midDiv{
+    text-align: center;
+    background-image: url(../../assets/images/openBook.jpg);  
+    background-size: cover;  
+    height: 750px;
+
+}
+.midBtn{
+    text-align: center;
+
+}
+h3{
+    color: rgb(50,50,50);
+}
+
+#logForm{
+    background-color: rgba(255,255,255, 0.5);
+    padding : 50px;
+    border-radius : 3px;
+    margin-top:20px;
+}
+input::placeholder{
+    color:white;
+}

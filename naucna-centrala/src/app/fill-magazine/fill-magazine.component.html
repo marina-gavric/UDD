@@ -1,0 +1,30 @@
+<div class="midDiv">
+    <div fxLayout="row" fxLayoutAlign="center center">
+          <div fxLex="25%">
+          </div>
+          <div fxLex="50%" id="fillForm">
+            <form #f="ngForm" (ngSubmit)="onSubmit(f.value, f)"  ngNativeValidate>
+                <h3>Fill more information</h3>
+       
+                <div *ngFor="let field of formFields" >
+                            <label for={{field.id}}>{{field.label}}</label>
+                            <mat-select name="{{field.id}}"  multiple ngModel *ngIf="field.type.name=='enum' && field.id=='reviewersl'">
+                                <mat-option *ngFor="let category of reviewers" value={{category.id}}>
+                                {{category.name}} , {{category.surname}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-select name="{{field.id}}"  multiple ngModel *ngIf="field.type.name=='enum' && field.id=='editorsl'">
+                                <mat-option *ngFor="let cat of editors" value={{cat.id}}>
+                                {{cat.name}},{{cat.surname}}  
+                                </mat-option>
+                            </mat-select>
+                    </div>                        
+                    <div class="midBtn">
+                                <button  mat-raised-button type="submit" color="white">Confirm</button>
+                    </div>
+            </form>
+          </div>
+          <div fxLex="25%">
+          </div>
+    </div>
+</div>

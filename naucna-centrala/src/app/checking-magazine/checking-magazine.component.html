@@ -1,0 +1,20 @@
+<div class="midDiv">
+    <div fxLayout="row" fxLayoutAlign="center center">
+        <div fxLex="25%">
+        </div>
+        <div fxLex="50%" id="checkForm">
+            <form #f="ngForm" (ngSubmit)="onSubmit(f.value, f)"  ngNativeValidate>
+              <h3>Check magazine</h3>
+              <div *ngFor="let field of formFields" >
+                    <mat-checkbox type="checkbox" name={{field.id}} ngModel  *ngIf="field.type.name=='boolean'">Is magazine correct?</mat-checkbox>
+              </div>
+              <div class="midBtn">
+                  <button  mat-raised-button type="submit" color="gray">Check</button>
+            </div>
+            </form>
+        </div>
+        <div fxLex="25%">
+        </div>
+      </div>
+</div>
+
