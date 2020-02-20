@@ -27,6 +27,7 @@ import { CheckFormatComponent } from './check-format/check-format.component';
 import { ChangePdfComponent } from './change-pdf/change-pdf.component';
 import { SelectReviewerComponent } from './select-reviewer/select-reviewer.component';
 import { PayComponent } from './pay/pay.component';
+import { SearchComponent } from './search/search.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { PayComponent } from './pay/pay.component';
     CheckFormatComponent,
     ChangePdfComponent,
     SelectReviewerComponent,
-    PayComponent
+    PayComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,
