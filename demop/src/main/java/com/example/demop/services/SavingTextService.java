@@ -2,8 +2,14 @@ package com.example.demop.services;
 import com.example.demop.model.*;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
+import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.common.xcontent.XContentType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.client.RequestOptions;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.persistence.Access;
 import java.util.List;
@@ -19,6 +25,10 @@ public class SavingTextService implements JavaDelegate {
     UserService userService;
     @Autowired
     ScientificAreaServiceImpl scientificAreaService;
+
+    @Qualifier("restHighLevelCient")
+    @Autowired
+    RestHighLevelClient restClient;
 
     @Override
     public void execute(DelegateExecution execution) throws Exception {
@@ -43,6 +53,7 @@ public class SavingTextService implements JavaDelegate {
             System.out.println("Magazin je null");
         }
         Text text = new Text();
+        String keywords="";
         for(FormSubmissionDTO item: textInfo){
             System.out.println("VALUE: "+ item.getFieldValue());
             System.out.println("ID "+ item.getFieldId());
@@ -64,6 +75,11 @@ public class SavingTextService implements JavaDelegate {
                     kw.setName(val);
                     kw.setText(text);
                     text.getKeywords().add(kw);
+                    if(keywords.equals("")){
+                        keywords+=kw.getName();
+                    }else{
+                        keywords+=", "+kw.getName();
+                    }
                 }
             }
             if(item.getFieldId().equals("summary")){
@@ -81,6 +97,27 @@ public class SavingTextService implements JavaDelegate {
         //newMagazine.getTexts().add(text);
         System.out.println("Ispred save");
         textService.save(text);
+        //indeksiranje rada
+        System.out.println("Indeksiranje rada");
+        TextUnit textUnit = new TextUnit();
+        textUnit.setId(text.getId());
+        textUnit.setAuthor(text.getAuthor().getName()+" "+text.getAuthor().getSurname());
+        textUnit.setMagazine(text.getMagazine().getTitle());
+        textUnit.setTitle(text.getTitle());
+        textUnit.setScientificArea(text.getScientificArea().getName());
+        textUnit.setKeywords(keywords);
+        //treba izmeniti
+        textUnit.setContent(text.getPdf());
+        IndexRequest indexRequest = new IndexRequest("text_index");
+        indexRequest.id(Long.toString(text.getId()));
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        indexRequest.source(mapper.writeValueAsString(textUnit), XContentType.JSON);
+
+        restClient.index(indexRequest, RequestOptions.DEFAULT);
+
+
     }
     }
 

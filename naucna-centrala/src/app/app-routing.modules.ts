@@ -18,9 +18,11 @@ import { CheckFormatComponent } from './/check-format/check-format.component';
 import { ChangePdfComponent } from './/change-pdf/change-pdf.component';
 import { SelectReviewerComponent } from './/select-reviewer/select-reviewer.component';
 import { PayComponent } from './/pay/pay.component';
+import { SearchComponent } from './/search/search.component';
+
 const routes: Routes = [{
     path: '',
-    component: LoginComponent
+    component: SearchComponent
    },
    {
     path: 'signup',
@@ -33,6 +35,10 @@ const routes: Routes = [{
    {
     path: 'fillMagazine/:process_id',
     component: FillMagazineComponent
+   },
+   {
+    path: 'search',
+    component: SearchComponent
    },
    {
     path: 'checkingMagazine/:task_id',

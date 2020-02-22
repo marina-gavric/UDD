@@ -17,7 +17,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ElasticSearchConfiguration {
 
-    @Qualifier("elasticsearchRestHighLevelClient")
+    @Qualifier("restHighLevelCient")
     @Autowired
     RestHighLevelClient restClient;
 

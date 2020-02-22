@@ -1,1 +1,52 @@
-<p>search works!</p>
+<div class="midDiv" id="mainPart">  
+    <div fxLayout="row" fxLayoutAlign="center center">
+      <div fxLex="20%">
+      </div>
+      <div fxLex="60%" id="logForm">
+          <div >          
+              <form #f="ngForm" (ngSubmit)="onSubmit()"  ngNativeValidate>
+                  <h3>Search</h3>
+                  <div>
+                    <mat-select matInput  placeholder="Choose field" [(ngModel)]="field.field" name="first" ngModel>
+                        <mat-option style="color: gray" value="title">
+                            Title
+                        </mat-option>  
+                        <mat-option style="color: gray" value="magazine">
+                            Magazine's title 
+                        </mat-option>
+                        <mat-option style="color: gray" value="author">
+                            Author
+                        </mat-option>
+                        <mat-option style="color: gray" value="content">
+                            Content 
+                        </mat-option>
+                        <mat-option style="color: gray" value="keywords">
+                            Keywords
+                        </mat-option>                      
+                        <mat-option style="color: gray" value="scientificArea">
+                            Scientific Area
+                        </mat-option>
+                    </mat-select>
+                    <mat-select ngModel matInput placeholder="Operation" [(ngModel)]="field.operation" name="operation">
+                        <mat-option style="color: gray" value="should">or</mat-option>
+                        <mat-option style="color: gray" value="must">and</mat-option>
+                        <mat-option style="color: gray" value="mustnot">and not</mat-option>
+                    </mat-select>
+                    <mat-select placeholder="Type of search" ngModel matInput [(ngModel)]="field.type" name="type">
+                        <mat-option style="color: gray" value="regular">Regular search</mat-option>
+                        <mat-option style="color: gray" value="phrase">Phrase search</mat-option>
+                    </mat-select>
+                    <mat-form-field>
+                        <input ngModel placeholder="Enter value" type="text" matInput [(ngModel)]="field.text" name="text" >
+                     </mat-form-field>   
+                     </div>                      
+                <button  mat-raised-button type="submit" color="gray">Search</button>
+              </form>
+              </div>
+      </div>
+    
+      <div fxLex="20%">
+      </div>
+    
+    </div>
+    </div>

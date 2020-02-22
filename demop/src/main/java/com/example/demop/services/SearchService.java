@@ -30,7 +30,7 @@ public class SearchService {
     @Autowired
     TextRepository textRepository;
 
-    @Qualifier("elasticsearchRestHighLevelClient")
+    @Qualifier("restHighLevelCient")
     @Autowired
     RestHighLevelClient restClient;
 
@@ -57,10 +57,7 @@ public class SearchService {
 
         ArrayList<TextDTO> retVal = new ArrayList<>();
 
-        //kreiranje liste rezultata
         for (SearchHit hit : searchResponse.getHits()) {
-
-
             long textId = Long.parseLong(hit.getId());
             com.example.demop.model.Text text = textRepository.findOneById(textId);
             TextDTO textDTO = new TextDTO();

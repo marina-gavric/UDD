@@ -55,7 +55,18 @@ export class FillTextComponent implements OnInit {
   fileUploads(event) {
     this.choseF = true;
     this.fileUpload = event.target.files[0];
+    console.log(this.fileUpload);    
+    // tslint:disable-next-line:prefer-const
+    let fileReader = new FileReader();
+    let value;
+    fileReader.onload = (e) => {
+      value = fileReader.result;
+      console.log('ispis je');
+      console.log(fileReader.result);
+      console.log(value);
+    };
     console.log(this.fileUpload);
+    fileReader.readAsDataURL(this.fileUpload);
   }
   onSubmit(value, form) {
     var validForm = true;
