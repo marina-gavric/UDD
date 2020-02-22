@@ -35,8 +35,7 @@ public class SearchService {
     RestHighLevelClient restClient;
 
     public ArrayList<TextDTO> search(ArrayList<SearchDTO> searchFields) throws IOException {
-
-
+        System.out.println("Usao u searchService");
         SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
 
         HighlightBuilder highlightBuilder = new HighlightBuilder();
@@ -58,6 +57,7 @@ public class SearchService {
         ArrayList<TextDTO> retVal = new ArrayList<>();
 
         for (SearchHit hit : searchResponse.getHits()) {
+            System.out.println("Hit");
             long textId = Long.parseLong(hit.getId());
             com.example.demop.model.Text text = textRepository.findOneById(textId);
             TextDTO textDTO = new TextDTO();
@@ -81,9 +81,8 @@ public class SearchService {
                     coauthors+=", " + u.getName() + " "+u.getSurname();
                 }
             }
-            textDTO.setAuthor(text.getAuthor().getName()+", "+text.getAuthor().getSurname());
+            textDTO.setAuthors(text.getAuthor().getName()+", "+text.getAuthor().getSurname());
             textDTO.setKeywords(keywords);
-            textDTO.setCoauthors(coauthors);
 
             Map<String, Object> sourceAsMap = hit.getSourceAsMap();
             textDTO.setScientificArea((String)sourceAsMap.get("scientificArea"));

@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs';
+import { Field } from 'src/app/model/Field';
+import { TextDTO } from 'src/app/model/TextDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -65,5 +67,7 @@ export class RepositoryService {
       }
    //  return this.httpClient.post('http://localhost:8080/register/loadTask/'.concat(taskId), null) as Observable<any>;
   }
-
+  searchTexts(searchFields) {
+    return this.httpClient.post('http://localhost:8080/magazine/search', searchFields) as Observable<any>;
+  }
 }

@@ -6,13 +6,11 @@ public class TextDTO {
     private String title;
     private String magazine;
     private String scientificArea;
-    private String coauthors;
     private String keywords;
-    private String summary;
     private String content;
     private String pdf;
     private String higlight;
-    private String author;
+    private String authors;
 
     public TextDTO(){}
 
@@ -48,28 +46,12 @@ public class TextDTO {
         this.scientificArea = scientificArea;
     }
 
-    public String getCoauthors() {
-        return coauthors;
-    }
-
-    public void setCoauthors(String coauthors) {
-        this.coauthors = coauthors;
-    }
-
     public String getKeywords() {
         return keywords;
     }
 
     public void setKeywords(String keywords) {
         this.keywords = keywords;
-    }
-
-    public String getSummary() {
-        return summary;
-    }
-
-    public void setSummary(String summary) {
-        this.summary = summary;
     }
 
     public String getContent() {
@@ -96,11 +78,11 @@ public class TextDTO {
         this.higlight = higlight;
     }
 
-    public String getAuthor() {
-        return author;
+    public String getAuthors() {
+        return authors;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setAuthors(String author) {
+        this.authors = author;
     }
 }

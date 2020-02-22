@@ -14,9 +14,7 @@ import javax.ws.rs.core.MediaType;
 
 import com.example.demop.model.*;
 import com.example.demop.security.TokenUtils;
-import com.example.demop.services.MagazineService;
-import com.example.demop.services.ScientificAreaServiceImpl;
-import com.example.demop.services.UserServiceImpl;
+import com.example.demop.services.*;
 import com.example.demop.utils.Utils;
 import org.camunda.bpm.engine.FormService;
 import org.camunda.bpm.engine.IdentityService;
@@ -37,7 +35,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.demop.services.UserService;
 import com.example.demop.model.FormFieldsDTO;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -60,6 +57,9 @@ public class MagazineController {
 	
 	@Autowired
 	FormService formService;
+
+	@Autowired
+	SearchService searchService;
 
 	@Autowired
 	ScientificAreaServiceImpl areasService;
@@ -859,4 +859,18 @@ public class MagazineController {
 		Files.write(path,bytes);
 		return path.toAbsolutePath().toString();
 	}
+	@PostMapping(path = "/search", produces = "application/json")
+	public @ResponseBody ResponseEntity search(@RequestBody ArrayList<SearchDTO> searchData) throws IOException {
+		for(SearchDTO s : searchData){
+			System.out.println(s.getField() + " "+s.getType()+" "+s.getOperator()+" "+s.getText());
+		}
+
+		ArrayList<TextDTO> searchResult = searchService.search(searchData);
+		for(TextDTO t:searchResult){
+			System.out.println("Pronadjen");
+			System.out.println(t.getTitle());
+		}
+		return new ResponseEntity<>(searchResult, HttpStatus.OK);
+	}
+
 }

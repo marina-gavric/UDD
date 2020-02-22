@@ -27,7 +27,7 @@
                             Scientific Area
                         </mat-option>
                     </mat-select>
-                    <mat-select ngModel matInput placeholder="Operation" [(ngModel)]="field.operation" name="operation">
+                    <mat-select ngModel matInput placeholder="Operation" [(ngModel)]="field.operator" name="operation">
                         <mat-option style="color: gray" value="should">or</mat-option>
                         <mat-option style="color: gray" value="must">and</mat-option>
                         <mat-option style="color: gray" value="mustnot">and not</mat-option>
@@ -39,8 +39,9 @@
                     <mat-form-field>
                         <input ngModel placeholder="Enter value" type="text" matInput [(ngModel)]="field.text" name="text" >
                      </mat-form-field>   
-                     </div>                      
-                <button  mat-raised-button type="submit" color="gray">Search</button>
+                     </div>  
+                <button  mat-raised-button type="button" (click)="addCondition()" color="gray">Add</button>
+                <button  mat-raised-button type="submit" id="sbBtn" color="gray">Search</button>
               </form>
               </div>
       </div>

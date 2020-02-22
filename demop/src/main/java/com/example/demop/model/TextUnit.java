@@ -4,31 +4,28 @@ public class TextUnit {
     private long id;
     private String magazine;
     private String title;
-    private String coauthors;
     private String keywords;
     private String content;
     private String scientificArea;
-    private String author;
+    private String authors;
 
     public TextUnit(){}
 
-    public TextUnit(String author, String magazine, String title, String coauthors, String keywords, String content, String scientificArea){
+    public TextUnit(String author, String magazine, String title, String keywords, String content, String scientificArea){
         this.magazine = magazine;
-        this.setAuthor(author);
+        this.setAuthors(author);
         this.title = title;
-        this.coauthors = coauthors;
         this.keywords = keywords;
         this.content = content;
         this.scientificArea = scientificArea;
     }
 
 
-    public TextUnit(long id,String author, String magazine, String title, String coauthors, String keywords, String content, String scientificArea){
+    public TextUnit(long id,String author, String magazine, String title, String keywords, String content, String scientificArea){
         this.id = id;
-        this.setAuthor(author);
+        this.setAuthors(author);
         this.magazine = magazine;
         this.title = title;
-        this.coauthors = coauthors;
         this.keywords = keywords;
         this.content = content;
         this.scientificArea = scientificArea;
@@ -58,14 +55,6 @@ public class TextUnit {
         this.title = title;
     }
 
-    public String getCoauthors() {
-        return coauthors;
-    }
-
-    public void setCoauthors(String coauthors) {
-        this.coauthors = coauthors;
-    }
-
     public String getKeywords() {
         return keywords;
     }
@@ -90,11 +79,11 @@ public class TextUnit {
         this.scientificArea = scientificArea;
     }
 
-    public String getAuthor() {
-        return author;
+    public String getAuthors() {
+        return authors;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setAuthors(String author) {
+        this.authors = author;
     }
 }

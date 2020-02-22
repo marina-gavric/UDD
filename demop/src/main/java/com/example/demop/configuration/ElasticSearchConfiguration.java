@@ -23,26 +23,20 @@ public class ElasticSearchConfiguration {
 
     @PostConstruct
     public void postConstruct() throws IOException {
-        GetIndexRequest getIndexrequest = new GetIndexRequest("text_index");
+        GetIndexRequest getIndexrequest = new GetIndexRequest("index_text");
         boolean existIndex = restClient.indices().exists(getIndexrequest, RequestOptions.DEFAULT);
         if(existIndex == false) {
             //prvi put ulazi u if, i kreiramo index
-            CreateIndexRequest createIndexRequest = new CreateIndexRequest("text_index");
+            CreateIndexRequest createIndexRequest = new CreateIndexRequest("index_text");
             restClient.indices().create(createIndexRequest, RequestOptions.DEFAULT);
 
-            PutMappingRequest mappingRequest = new PutMappingRequest("text_index");
+            PutMappingRequest mappingRequest = new PutMappingRequest("index_text");
 
             XContentBuilder builder = XContentFactory.jsonBuilder();
             builder.startObject();
             {
                 builder.startObject("properties");
                 {
-
-                    builder.startObject("id");
-                    {
-                        builder.field("type", "keyword");
-                    }
-                    builder.endObject();
 
                     builder.startObject("magazine");
                     {
@@ -53,14 +47,6 @@ public class ElasticSearchConfiguration {
                     builder.endObject();
 
                     builder.startObject("title");
-                    {
-                        builder.field("store", "true");
-                        builder.field("type", "text");
-                        builder.field("analyzer", "serbian");
-                    }
-                    builder.endObject();
-
-                    builder.startObject("coauthors");
                     {
                         builder.field("store", "true");
                         builder.field("type", "text");
@@ -93,11 +79,17 @@ public class ElasticSearchConfiguration {
                     }
                     builder.endObject();
 
-                    builder.startObject("author");
+                    builder.startObject("authors");
                     {
                         builder.field("store", "true");
                         builder.field("type", "text");
                         builder.field("analyzer", "serbian");
+                    }
+                    builder.endObject();
+
+                    builder.startObject("id");
+                    {
+                        builder.field("type", "keyword");
                     }
                     builder.endObject();
 

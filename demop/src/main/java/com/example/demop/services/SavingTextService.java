@@ -11,7 +11,16 @@ import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.client.RequestOptions;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.apache.pdfbox.io.RandomAccessFile;
+import org.apache.pdfbox.pdfparser.PDFParser;
+import org.apache.pdfbox.text.PDFTextStripper;
+import org.springframework.stereotype.Service;
+
+
 import javax.persistence.Access;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -101,14 +110,27 @@ public class SavingTextService implements JavaDelegate {
         System.out.println("Indeksiranje rada");
         TextUnit textUnit = new TextUnit();
         textUnit.setId(text.getId());
-        textUnit.setAuthor(text.getAuthor().getName()+" "+text.getAuthor().getSurname());
+        String authors = text.getAuthor().getName()+" "+text.getAuthor().getSurname();
+        for(User u: text.getCoauthorText()){
+            authors+=", "+u.getName()+" "+u.getSurname();
+        }
+        textUnit.setAuthors(authors);
         textUnit.setMagazine(text.getMagazine().getTitle());
         textUnit.setTitle(text.getTitle());
         textUnit.setScientificArea(text.getScientificArea().getName());
         textUnit.setKeywords(keywords);
         //treba izmeniti
-        textUnit.setContent(text.getPdf());
-        IndexRequest indexRequest = new IndexRequest("text_index");
+
+        //D:\UDD_GIT\UDD\demop\files\01-intro.pdf
+        String [] pom = text.getPdf().split("\\\\");
+        String fileName = pom[5];
+        System.out.println("Naziv fajla je "+fileName);
+        File file = new File("files/" +fileName);
+        String content = getText(file);
+        System.out.println("Sadrzaj je "+content);
+        textUnit.setContent(content);
+
+        IndexRequest indexRequest = new IndexRequest("index_text");
         indexRequest.id(Long.toString(text.getId()));
 
         ObjectMapper mapper = new ObjectMapper();
@@ -118,6 +140,19 @@ public class SavingTextService implements JavaDelegate {
         restClient.index(indexRequest, RequestOptions.DEFAULT);
 
 
+    }
+    public String getText(File file) {
+        try {
+            PDFParser parser = new PDFParser(new RandomAccessFile(file, "r"));
+            parser.parse();
+            PDFTextStripper textStripper = new PDFTextStripper();
+            String text = textStripper.getText(parser.getPDDocument());
+            return text;
+        } catch (IOException e) {
+            System.out.println("Error getting text");
+            System.out.println(e);
+        }
+        return null;
     }
     }
 
