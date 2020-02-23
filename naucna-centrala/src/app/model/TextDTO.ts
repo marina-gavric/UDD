@@ -6,6 +6,6 @@ export class TextDTO {
     keywords: string;
     content: string;
     pdf: string;
-    highlight: string;
+    higlight: string;
     authors: string;
 }

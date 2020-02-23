@@ -130,7 +130,7 @@ public class SavingTextService implements JavaDelegate {
         System.out.println("Sadrzaj je "+content);
         textUnit.setContent(content);
 
-        IndexRequest indexRequest = new IndexRequest("index_text");
+        IndexRequest indexRequest = new IndexRequest("index");
         indexRequest.id(Long.toString(text.getId()));
 
         ObjectMapper mapper = new ObjectMapper();

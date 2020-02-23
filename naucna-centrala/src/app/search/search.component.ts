@@ -12,6 +12,7 @@ export class SearchComponent implements OnInit {
   private field: Field;
   conditions: Field[] = new Array();
   result = [];
+  searchDone = false;
   constructor(private repositoryService: RepositoryService) { 
     this.field = new Field();
   }
@@ -27,6 +28,7 @@ export class SearchComponent implements OnInit {
         console.log(data);
         this.result = data;
         console.log(this.result);
+        this.searchDone = true;
        },
        err => {
          console.log('there is an error');
@@ -44,5 +46,11 @@ export class SearchComponent implements OnInit {
     this.field = new Field();
     this.conditions.push(f);
     console.log(this.conditions);
+  }
+  searchAgain() {
+    console.log('u searchAgain');
+    this.field = new Field();
+    this.conditions = new Array();
+    this.searchDone = false;
   }
 }

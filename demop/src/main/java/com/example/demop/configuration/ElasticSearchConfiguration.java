@@ -3,6 +3,8 @@ import java.io.IOException;
 
 import javax.annotation.PostConstruct;
 
+import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
+import org.elasticsearch.action.support.master.AcknowledgedResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.indices.CreateIndexRequest;
@@ -23,14 +25,15 @@ public class ElasticSearchConfiguration {
 
     @PostConstruct
     public void postConstruct() throws IOException {
-        GetIndexRequest getIndexrequest = new GetIndexRequest("index_text");
+
+        GetIndexRequest getIndexrequest = new GetIndexRequest("index");
         boolean existIndex = restClient.indices().exists(getIndexrequest, RequestOptions.DEFAULT);
         if(existIndex == false) {
             //prvi put ulazi u if, i kreiramo index
-            CreateIndexRequest createIndexRequest = new CreateIndexRequest("index_text");
+            CreateIndexRequest createIndexRequest = new CreateIndexRequest("index");
             restClient.indices().create(createIndexRequest, RequestOptions.DEFAULT);
 
-            PutMappingRequest mappingRequest = new PutMappingRequest("index_text");
+            PutMappingRequest mappingRequest = new PutMappingRequest("index");
 
             XContentBuilder builder = XContentFactory.jsonBuilder();
             builder.startObject();
