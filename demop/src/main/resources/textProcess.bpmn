@@ -233,25 +233,14 @@
       <bpmn:outgoing>SequenceFlow_0sxv3fc</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:endEvent id="EndEvent_0iwkc1w">
-      <bpmn:incoming>SequenceFlow_06nr3lw</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_0bbmedi</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:serviceTask id="Task_178zgnz" name="Sending email to selected editor" camunda:class="com.example.demop.services.SendingMailEditorService">
       <bpmn:incoming>SequenceFlow_0sxv3fc</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1l381cr</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_0sxv3fc" sourceRef="Task_1tgxin5" targetRef="Task_178zgnz" />
-    <bpmn:sequenceFlow id="SequenceFlow_1l381cr" sourceRef="Task_178zgnz" targetRef="Task_0lfwu8b" />
-    <bpmn:sequenceFlow id="SequenceFlow_06nr3lw" sourceRef="Task_0lfwu8b" targetRef="EndEvent_0iwkc1w" />
-    <bpmn:userTask id="Task_0lfwu8b" name="AddReviewers" camunda:assignee="mainEditor">
-      <bpmn:extensionElements>
-        <camunda:formData>
-          <camunda:formField id="listrev" label="Choose reviewers:" type="enum" />
-          <camunda:formField id="timerev" label="Enter time for reviewing: " type="string" />
-        </camunda:formData>
-      </bpmn:extensionElements>
-      <bpmn:incoming>SequenceFlow_1l381cr</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_06nr3lw</bpmn:outgoing>
-    </bpmn:userTask>
+    <bpmn:sequenceFlow id="SequenceFlow_1l381cr" sourceRef="Task_178zgnz" targetRef="Task_0fskoj4" />
     <bpmn:userTask id="Task_1a2hreq" name="Paying" camunda:assignee="autor">
       <bpmn:extensionElements>
         <camunda:formData>
@@ -279,6 +268,16 @@
     <bpmn:sequenceFlow id="SequenceFlow_128qoli" name="Cancelled payment" sourceRef="ExclusiveGateway_15z8lki" targetRef="EndEvent_0kpeniq">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${paid == false}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_0bbmedi" sourceRef="Task_0fskoj4" targetRef="EndEvent_0iwkc1w" />
+    <bpmn:userTask id="Task_0fskoj4" name="SelectReviewers" camunda:assignee="mainEditor">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="listReviewers" label="Select reviewers:" type="enum" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1l381cr</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0bbmedi</bpmn:outgoing>
+    </bpmn:userTask>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="textProcess">
@@ -540,15 +539,8 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1l381cr_di" bpmnElement="SequenceFlow_1l381cr">
         <di:waypoint x="2470" y="477" />
-        <di:waypoint x="2540" y="477" />
+        <di:waypoint x="2530" y="477" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_06nr3lw_di" bpmnElement="SequenceFlow_06nr3lw">
-        <di:waypoint x="2640" y="477" />
-        <di:waypoint x="2672" y="477" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="UserTask_0k79ves_di" bpmnElement="Task_0lfwu8b">
-        <dc:Bounds x="2540" y="437" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="UserTask_035ngak_di" bpmnElement="Task_1a2hreq">
         <dc:Bounds x="600" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
@@ -583,6 +575,13 @@
           <dc:Bounds x="846" y="86" width="49" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0bbmedi_di" bpmnElement="SequenceFlow_0bbmedi">
+        <di:waypoint x="2630" y="477" />
+        <di:waypoint x="2672" y="477" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="UserTask_00c1cpb_di" bpmnElement="Task_0fskoj4">
+        <dc:Bounds x="2530" y="437" width="100" height="80" />
+      </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn:definitions>

@@ -1,0 +1,28 @@
+<div class="midDiv">
+        <div fxLayout="row" fxLayoutAlign="center center">
+            <div fxLex="25%">
+            </div>
+            <div fxLex="50%" id="formatForm">
+             
+            <form #f="ngForm" (ngSubmit)="onSubmit(f.value, f)"  ngNativeValidate>
+              <h3>Select reviewers</h3>
+              <button  mat-raised-button type="button" (click)="scienceFilter()" color="gray">Science</button>
+              <button  mat-raised-button type="button" (click)="locationFilter()" color="gray">Location</button>
+              <button  mat-raised-button type="button" (click)="moreFilter()" color="gray">More</button>
+            
+              <mat-select id="options" name="lista" matInput multiple   ngModel >
+                        <mat-option *ngFor="let item of enumValues" value={{item.id}}>
+                            {{item.name}} , {{item.surname}}
+                        </mat-option>
+                </mat-select>
+            <div class="midBtn">
+                  <button  mat-raised-button type="submit" color="gray">Confirm</button>
+               </div> 
+            </form>
+        </div>
+        <div fxLex="25%">
+          </div>
+        </div>
+        </div>
+        
+        

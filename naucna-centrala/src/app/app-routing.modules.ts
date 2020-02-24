@@ -16,9 +16,9 @@ import { FillCoauthorComponent } from './/fill-coauthor/fill-coauthor.component'
 import { AddCoauthorComponent } from './/add-coauthor/add-coauthor.component';
 import { CheckFormatComponent } from './/check-format/check-format.component';
 import { ChangePdfComponent } from './/change-pdf/change-pdf.component';
-import { SelectReviewerComponent } from './/select-reviewer/select-reviewer.component';
 import { PayComponent } from './/pay/pay.component';
 import { SearchComponent } from './/search/search.component';
+import { SelectReviewersComponent } from './/select-reviewers/select-reviewers.component';
 
 const routes: Routes = [{
     path: '',
@@ -53,8 +53,8 @@ const routes: Routes = [{
     component: CheckThemeComponent
    },
    {
-    path: 'selectRev/:process_id',
-    component: SelectReviewerComponent
+    path: 'selectReviewers/:process_id',
+    component: SelectReviewersComponent
    },
    {
     path: 'checkFormat/:task_id',

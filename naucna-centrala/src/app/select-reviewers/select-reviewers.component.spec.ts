@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SelectReviewerComponent } from './select-reviewer.component';
+import { SelectReviewersComponent } from './select-reviewers.component';
 
-describe('SelectReviewerComponent', () => {
-  let component: SelectReviewerComponent;
-  let fixture: ComponentFixture<SelectReviewerComponent>;
+describe('SelectReviewersComponent', () => {
+  let component: SelectReviewersComponent;
+  let fixture: ComponentFixture<SelectReviewersComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SelectReviewerComponent ]
+      declarations: [ SelectReviewersComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SelectReviewerComponent);
+    fixture = TestBed.createComponent(SelectReviewersComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -58,7 +58,7 @@ export class CheckFormatComponent implements OnInit {
       res => {
         if (res == true) {
           console.log('format je dobar');
-          window.location.href = 'selectRev/' + this.processInstance;
+          window.location.href = 'selectReviewers/' + this.processInstance;
         } else {
           console.log('Mora menjati format');
           window.location.href = '';

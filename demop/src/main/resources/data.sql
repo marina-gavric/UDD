@@ -15,8 +15,9 @@ insert into user (id, name, surname, city, country, username, password, mail, ti
 insert into user (id, name, surname, city, country, username, password, mail, title, rev_flag, active, payed,type) values (5215, 'Olja', 'Vesic', 'Nis', 'Srbija', 'edi2','$2a$10$ifANXgSrjBgprG81FsGmLu5xuE4CkcmLXCi335AM5fDI2faPRz1dO',  'gavric.marinaa@gmail.com','mr', false,true,true, 'editor');
 insert into user (id, name, surname, city, country, username, password, mail, title, rev_flag, active, payed,type) values (4566, 'Aca', 'Nikolic', 'Nis', 'Srbija', 'rev2','$2a$10$ifANXgSrjBgprG81FsGmLu5xuE4CkcmLXCi335AM5fDI2faPRz1dO',  'rev2@gmail.com','mr', false,true, true,'reviewer');
 insert into user (id, name, surname, city, country, username, password, mail, title, rev_flag, active, payed,type) values (7005, 'Dejan', 'Lazic', 'Nis', 'Srbija', 'edi3','$2a$10$ifANXgSrjBgprG81FsGmLu5xuE4CkcmLXCi335AM5fDI2faPRz1dO',  'editor3@gmail.com','mr', false,true,true, 'editor');
-insert into user (id, name, surname, city, country, username, password, mail, title, rev_flag, active, payed,type) values (85656, 'Jeca', 'Nesic', 'Nis', 'Srbija', 'rev3','$2a$10$ifANXgSrjBgprG81FsGmLu5xuE4CkcmLXCi335AM5fDI2faPRz1dO',  'rev3@gmail.com','mr', false,true,true, 'reviewer');
+insert into user (id, name, surname, city, country, username, password, mail, title, rev_flag, active, payed,type) values (88, 'Jeca', 'Nesic', 'Nis', 'Srbija', 'rev3','$2a$10$ifANXgSrjBgprG81FsGmLu5xuE4CkcmLXCi335AM5fDI2faPRz1dO',  'rev3@gmail.com','mr', false,true,true, 'reviewer');
 insert into user (id, name, surname, city, country, username, password, mail, title, rev_flag, active, payed,type) values (999, 'Tea', 'Maric', 'Nis', 'Srbija', 'edi4','$2a$10$ifANXgSrjBgprG81FsGmLu5xuE4CkcmLXCi335AM5fDI2faPRz1dO',  'editor4@gmail.com','mr', false,true,true, 'editor');
+insert into user (id, name, surname, city, country, username, password, mail, title, rev_flag, active, payed,type) values (96, 'Marko', 'Milojevic', 'Nis', 'Srbija', 'rev4','$2a$10$ifANXgSrjBgprG81FsGmLu5xuE4CkcmLXCi335AM5fDI2faPRz1dO',  'rev4@gmail.com','mr', false,true,true, 'reviewer');
 
 insert into role values (1, 'ADMIN');
 insert into role values (2, 'USER');
@@ -40,8 +41,14 @@ insert into user_roles values (999, 4);
 insert into user_roles values (7005, 4);
 insert into user_roles values (889, 3);
 insert into user_roles values (4566, 3);
+insert into user_roles values (96, 3);
+insert into user_roles values (88, 3);
 
 delete from user_areas;
+insert into user_areas values (889, 13);
+insert into user_areas values (4566, 13);
+insert into user_areas values (96, 30);
+insert into user_areas values (88, 30);
 insert into user_areas values (999, 13);
 insert into user_areas values (7005, 13);
 insert into user_areas values (7005, 30);

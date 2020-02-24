@@ -11,8 +11,14 @@
 h3{
     color: rgb(50,50,50);
 }
-
-#selForm{
+button{
+    margin:2px;
+    padding:3px;
+}
+#options{
+    margin: 10px;
+}
+#formatForm{
     margin-top: 20px;
     background-color: rgba(255,255,255, 0.5);
     padding : 50px;

@@ -25,9 +25,9 @@ import { AddCoauthorComponent } from './add-coauthor/add-coauthor.component';
 import { FillCoauthorComponent } from './fill-coauthor/fill-coauthor.component';
 import { CheckFormatComponent } from './check-format/check-format.component';
 import { ChangePdfComponent } from './change-pdf/change-pdf.component';
-import { SelectReviewerComponent } from './select-reviewer/select-reviewer.component';
 import { PayComponent } from './pay/pay.component';
 import { SearchComponent } from './search/search.component';
+import { SelectReviewersComponent } from './select-reviewers/select-reviewers.component';
 
 @NgModule({
   declarations: [
@@ -48,9 +48,9 @@ import { SearchComponent } from './search/search.component';
     FillCoauthorComponent,
     CheckFormatComponent,
     ChangePdfComponent,
-    SelectReviewerComponent,
     PayComponent,
-    SearchComponent
+    SearchComponent,
+    SelectReviewersComponent
   ],
   imports: [
     BrowserModule,

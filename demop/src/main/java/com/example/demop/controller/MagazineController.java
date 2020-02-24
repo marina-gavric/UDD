@@ -553,19 +553,8 @@ public class MagazineController {
 
 		return new FormFieldsDTO(nextTask.getId(), processId, properties);
 	}
-	@GetMapping(path = "/getRevForm/{processId}", produces = "application/json")
-	public @ResponseBody FormFieldsDTO getRevTask(@PathVariable String processId) {
-
-		System.out.println("Usao u getRevTask"+ processId);
-		List<Task> tasks = taskService.createTaskQuery().processInstanceId(processId).list();
-		List<TaskDTO> taskDTOList = new ArrayList<TaskDTO>();
-		if(tasks.size()==0){
-			System.out.println("Prazna lista");
-		}
-		Task nextTask = tasks.get(0);
-		List<ScientificArea> allAreas = areasService.getAll();
-		TaskFormData tfd = formService.getTaskFormData(nextTask.getId());
-		List<FormField> properties = tfd.getFormFields();
+	@GetMapping(path = "/loadRev/{processId}", produces = "application/json")
+	public @ResponseBody ResponseEntity getRevTask(@PathVariable String processId) {
 
 		List<FormSubmissionDTO> textForm = (List<FormSubmissionDTO>)runtimeService.getVariable(processId, "textData");
 		List<FormSubmissionDTO> magForm = (List<FormSubmissionDTO>)runtimeService.getVariable(processId, "chosenMagazine");
@@ -579,36 +568,50 @@ public class MagazineController {
 			}
 		}
 		Magazine magazine = magazineService.findMagazineById(Long.parseLong(idMagazine));
-		System.out.println("ispis");
-		for(FormSubmissionDTO item: textForm){
-			System.out.println("");
-			if(item.getFieldId().equals("title")){
-				titleT = item.getFieldValue();
-			}
-			if(item.getFieldId().equals("areas")){
-				areaId = item.getFieldValue();
-			}
-		}
 
-		List<User> reviewers = userService.getReviewerByScience(areaId,idMagazine);
-		if(reviewers.size()==0){
-			System.out.println("Prazna lista");
+		ArrayList<UserDTO> result = new ArrayList<UserDTO>();
+		for(User u: magazine.getReviewerMagazine()){
+			result.add(new UserDTO(u));
+			System.out.println("Dodaje reviewera "+u.getUsername());
 		}
+		return new ResponseEntity<>(result, HttpStatus.OK);
 
-		for(FormField fp : properties){
-			if(fp.getId().equals("listrev")){
-				System.out.println("Nasao polje");
-				EnumFormType enumType = (EnumFormType) fp.getType();
-				enumType.getValues().clear();
-				for(User sa: reviewers){
-					System.out.println("Dodaje recenzenta "+sa.getName()+" "+sa.getUsername());
-					enumType.getValues().put(sa.getId().toString(), sa.getName());
-				}
+	}
+	@GetMapping(path = "/loadRevScience/{processId}", produces = "application/json")
+	public @ResponseBody ResponseEntity getRevByScence(@PathVariable String processId) {
+
+		List<FormSubmissionDTO> textForm = (List<FormSubmissionDTO>)runtimeService.getVariable(processId, "textData");
+		List<FormSubmissionDTO> magForm = (List<FormSubmissionDTO>)runtimeService.getVariable(processId, "chosenMagazine");
+		String idMagazine="";
+		String titleT="";
+		String areaId="";
+		for(FormSubmissionDTO item: magForm){
+			if(item.getFieldId().equals("magazineList")){
+				idMagazine = item.getFieldValue();
 				break;
 			}
 		}
+		for(FormSubmissionDTO item: textForm){
+			if(item.getFieldId().equals("areas")){
+				areaId = item.getFieldValue();
+				System.out.println("pronadjen "+areaId);
+				break;
+			}
+		}
+		Magazine magazine = magazineService.findMagazineById(Long.parseLong(idMagazine));
 
-		return new FormFieldsDTO(nextTask.getId(), processId, properties);
+		ArrayList<UserDTO> result = new ArrayList<UserDTO>();
+		for(User u: magazine.getReviewerMagazine()){
+			for(ScientificArea sa: u.getInterestedAreas()){
+				String id=sa.getId().toString();
+				if(id.equals(areaId)){
+					result.add(new UserDTO(u));
+					System.out.println("Dodaje reviewera "+u.getUsername());
+				}
+			}
+		}
+		return new ResponseEntity<>(result, HttpStatus.OK);
+
 	}
 
 	@GetMapping(path = "/nextTaskMag/{processId}", produces = "application/json")
@@ -795,6 +798,7 @@ public class MagazineController {
 		Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
 		String processInstanceId = task.getProcessInstanceId();
 		boolean approved = false;
+		String assignee = task.getAssignee();
 		String deadline="";
 		for(FormSubmissionDTO item: formData){
 			String fieldId = item.getFieldId();
@@ -825,8 +829,8 @@ public class MagazineController {
 					taskService.saveTask(t);
 					break;
 				}
-				if(t.getName().equals("AddReviewers")){
-                    t.setAssignee(username);
+				if(t.getName().equals("SelectReviewers")){
+                    t.setAssignee(assignee);
                     System.out.println("postavlja assigne add rev");
                     taskService.saveTask(t);
                     break;

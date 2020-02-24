@@ -15,7 +15,13 @@ public class UserDTO {
 		this.name = name;
 		this.surname = surname;
 	}
+	public UserDTO(User user){
+		this.id = user.getId();
+		this.username = user.getUsername();
+		this.name= user.getName();
+		this.surname = user.getSurname();
 
+	}
 	public Long getId() {
 		return id;
 	}
