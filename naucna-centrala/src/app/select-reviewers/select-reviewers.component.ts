@@ -96,5 +96,16 @@ export class SelectReviewersComponent implements OnInit {
   }
   moreFilter() {
     console.log('more filter');
+    let d = this.repositoryService.loadReviewersMoreLikeThis(this.processId);
+    d.subscribe(
+      data => {
+        console.log(data);
+        this.enumValues = data;
+        console.log(this.enumValues);
+       },
+       err => {
+         console.log('there is an error');
+       }
+    );
   }
 }

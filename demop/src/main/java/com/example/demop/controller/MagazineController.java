@@ -1,5 +1,6 @@
 package com.example.demop.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -16,6 +17,11 @@ import com.example.demop.model.*;
 import com.example.demop.security.TokenUtils;
 import com.example.demop.services.*;
 import com.example.demop.utils.Utils;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.pdfbox.io.RandomAccessFile;
+import org.apache.pdfbox.pdfparser.PDFParser;
+import org.apache.pdfbox.text.PDFTextStripper;
 import org.camunda.bpm.engine.FormService;
 import org.camunda.bpm.engine.IdentityService;
 import org.camunda.bpm.engine.RepositoryService;
@@ -28,7 +34,12 @@ import org.camunda.bpm.engine.impl.form.type.StringFormType;
 import org.camunda.bpm.engine.impl.form.validator.FormFieldValidationException;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
+import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.common.xcontent.XContentType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -45,7 +56,8 @@ public class MagazineController {
 
 	@Autowired
 	IdentityService identityService;
-	
+	@Autowired
+	MLTService mltService;
 	@Autowired
 	private RuntimeService runtimeService;
 	@Autowired
@@ -73,6 +85,10 @@ public class MagazineController {
 
 	@Autowired
 	private TokenUtils tokenUtils;
+
+	@Qualifier("restHighLevelCient")
+	@Autowired
+	RestHighLevelClient restClient;
 
 	@GetMapping(path = "/startMagProcess", produces = "application/json")
 	public @ResponseBody FormFieldsDTO getData(@Context HttpServletRequest request) {
@@ -621,11 +637,17 @@ public class MagazineController {
 		for(UserDTO user:result){
 			System.out.println(" username je "+user.getUsername());
 		}
-
 		return new ResponseEntity<>(result, HttpStatus.OK);
-
 	}
-
+	@GetMapping(path = "/loadRevMore/{processId}", produces = "application/json")
+	public @ResponseBody ResponseEntity getMoreLikeThis(@PathVariable String processId) throws IOException {
+		System.out.println("In get reviewers by text more like this");
+		ArrayList<UserDTO>result = mltService.moreLikeThisFilter(processId);
+		for(UserDTO user:result){
+			System.out.println(" username je "+user.getUsername());
+		}
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
 
 	@GetMapping(path = "/nextTaskMag/{processId}", produces = "application/json")
     public @ResponseBody FormFieldsDTO getNextTask(@PathVariable String processId) {
@@ -890,7 +912,7 @@ public class MagazineController {
 		return new ResponseEntity<>(searchResult, HttpStatus.OK);
 	}
 	@PostMapping(path = "/chooseReviewers/{processId}", produces = "application/json")
-	public @ResponseBody ResponseEntity chooseReviewers(@RequestBody List<FormSubmissionDTO> formData, @PathVariable String processId) {
+	public @ResponseBody ResponseEntity chooseReviewers(@RequestBody List<FormSubmissionDTO> formData, @PathVariable String processId) throws IOException {
 		System.out.println("Izbog recenzenata kontroler");
 		String title ="";
 		String idMagazine="";
@@ -933,7 +955,61 @@ public class MagazineController {
 				}
 			}
 		}
+		String keywords="";
+		for(Keyword val : reviewedText.getKeywords()) {
+			System.out.println("Dodavanje keyword sa imenom " + val.getName());
+			if (keywords.equals("")) {
+				keywords += val.getName();
+			} else {
+				keywords += ", " + val.getName();
+			}
+		}
+		System.out.println("Indeksiranje rada");
+		TextUnit textUnit = new TextUnit();
+		textUnit.setId(reviewedText.getId());
+		String authors = reviewedText.getAuthor().getName()+" "+reviewedText.getAuthor().getSurname();
+		for(User u: reviewedText.getCoauthorText()){
+			authors+=", "+u.getName()+" "+u.getSurname();
+		}
+		textUnit.setAuthors(authors);
+		textUnit.setMagazine(reviewedText.getMagazine().getTitle());
+		textUnit.setTitle(reviewedText.getTitle());
+		textUnit.setScientificArea(reviewedText.getScientificArea().getName());
+		textUnit.setKeywords(keywords);
+		//treba izmeniti
+
+		//D:\UDD_GIT\UDD\demop\files\01-intro.pdf
+		String [] pom = reviewedText.getPdf().split("\\\\");
+		String fileName = pom[5];
+		System.out.println("Naziv fajla je "+fileName);
+		File file = new File("files/" +fileName);
+		String content = getText(file);
+		System.out.println("Sadrzaj je "+content);
+		textUnit.setContent(content);
+
+		IndexRequest indexRequest = new IndexRequest("index");
+		indexRequest.id(Long.toString(reviewedText.getId()));
+
+		ObjectMapper mapper = new ObjectMapper();
+
+		indexRequest.source(mapper.writeValueAsString(textUnit), XContentType.JSON);
+
+		restClient.index(indexRequest, RequestOptions.DEFAULT);
+
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
+	public String getText(File file) {
+		try {
+			PDFParser parser = new PDFParser(new RandomAccessFile(file, "r"));
+			parser.parse();
+			PDFTextStripper textStripper = new PDFTextStripper();
+			String text = textStripper.getText(parser.getPDDocument());
+			return text;
+		} catch (IOException e) {
+			System.out.println("Error getting text");
+			System.out.println(e);
+		}
+		return null;
+	}
 }

@@ -33,7 +33,7 @@ public class ElasticSearchConfiguration {
     @PostConstruct
     public void postConstruct() throws IOException {
 
-        //DeleteIndexRequest request1 = new DeleteIndexRequest("index");
+       // DeleteIndexRequest request1 = new DeleteIndexRequest("index");
         //AcknowledgedResponse deleteIndexResponse1 = restClient.indices().delete(request1, RequestOptions.DEFAULT);
 
         GetIndexRequest getIndexrequest = new GetIndexRequest("index");
@@ -113,7 +113,7 @@ public class ElasticSearchConfiguration {
             mappingRequest.source(builder);
             restClient.indices().putMapping(mappingRequest, RequestOptions.DEFAULT);
         }
-       // DeleteIndexRequest request = new DeleteIndexRequest("reviewers");
+        //DeleteIndexRequest request = new DeleteIndexRequest("reviewers");
         //AcknowledgedResponse deleteIndexResponse = restClient.indices().delete(request, RequestOptions.DEFAULT);
 
         GetIndexRequest getRevrequest = new GetIndexRequest("reviewers");

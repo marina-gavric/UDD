@@ -54,6 +54,9 @@ export class RepositoryService {
   loadReviewersLocation(processId) {
     return this.httpClient.get('http://localhost:8080/magazine/loadRevLocation/'.concat(processId)) as Observable<any>;
   }
+  loadReviewersMoreLikeThis(processId) {
+    return this.httpClient.get('http://localhost:8080/magazine/loadRevMore/'.concat(processId)) as Observable<any>;
+  }
   loadTaskTheme(taskId) {
     return this.httpClient.get('http://localhost:8080/magazine/loadTaskTheme/'.concat(taskId)) as Observable<any>;
   }

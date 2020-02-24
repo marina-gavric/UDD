@@ -107,7 +107,7 @@ public class SavingTextService implements JavaDelegate {
         System.out.println("Ispred save");
         textService.save(text);
         //indeksiranje rada
-        System.out.println("Indeksiranje rada");
+    /*    System.out.println("Indeksiranje rada");
         TextUnit textUnit = new TextUnit();
         textUnit.setId(text.getId());
         String authors = text.getAuthor().getName()+" "+text.getAuthor().getSurname();
@@ -138,7 +138,7 @@ public class SavingTextService implements JavaDelegate {
         indexRequest.source(mapper.writeValueAsString(textUnit), XContentType.JSON);
 
         restClient.index(indexRequest, RequestOptions.DEFAULT);
-
+        */
 
     }
     public String getText(File file) {
