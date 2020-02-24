@@ -48,7 +48,9 @@ public class MagazineController {
 	
 	@Autowired
 	private RuntimeService runtimeService;
-	
+	@Autowired
+	private SearchService searchService;
+
 	@Autowired
 	private RepositoryService repositoryService;
 	
@@ -59,13 +61,12 @@ public class MagazineController {
 	FormService formService;
 
 	@Autowired
-	SearchService searchService;
-
-	@Autowired
 	ScientificAreaServiceImpl areasService;
 
 	@Autowired
 	UserServiceImpl userService;
+	@Autowired
+	LocationService locationService;
 
 	@Autowired
 	MagazineService magazineService;
@@ -613,6 +614,18 @@ public class MagazineController {
 		return new ResponseEntity<>(result, HttpStatus.OK);
 
 	}
+	@GetMapping(path = "/loadRevLocation/{processId}", produces = "application/json")
+	public @ResponseBody ResponseEntity getRevByLocation(@PathVariable String processId) throws IOException {
+		System.out.println("In get reviewers by location");
+		ArrayList<UserDTO>result = locationService.geoFilter(processId);
+		for(UserDTO user:result){
+			System.out.println(" username je "+user.getUsername());
+		}
+
+		return new ResponseEntity<>(result, HttpStatus.OK);
+
+	}
+
 
 	@GetMapping(path = "/nextTaskMag/{processId}", produces = "application/json")
     public @ResponseBody FormFieldsDTO getNextTask(@PathVariable String processId) {
@@ -875,6 +888,52 @@ public class MagazineController {
 			System.out.println(t.getTitle());
 		}
 		return new ResponseEntity<>(searchResult, HttpStatus.OK);
+	}
+	@PostMapping(path = "/chooseReviewers/{processId}", produces = "application/json")
+	public @ResponseBody ResponseEntity chooseReviewers(@RequestBody List<FormSubmissionDTO> formData, @PathVariable String processId) {
+		System.out.println("Izbog recenzenata kontroler");
+		String title ="";
+		String idMagazine="";
+		Text reviewedText=new Text();
+		List<FormSubmissionDTO> textForm = (List<FormSubmissionDTO>)runtimeService.getVariable(processId, "textData");
+		List<FormSubmissionDTO> magForm = (List<FormSubmissionDTO>)runtimeService.getVariable(processId, "chosenMagazine");
+		for(FormSubmissionDTO item: magForm){
+			if(item.getFieldId().equals("magazineList")){
+				idMagazine = item.getFieldValue();
+				System.out.println("Ima magazin");
+				break;
+			}
+		}
+		Magazine magazine = magazineService.findMagazineById(Long.parseLong(idMagazine));
+		for(FormSubmissionDTO item: textForm){
+			if(item.getFieldId().equals("title")){
+				title = item.getFieldValue();
+				System.out.println("Naslov rada je "+title);
+				break;
+			}
+		}
+		for(Text t:magazine.getTexts()){
+			if(t.getTitle().equals(title)){
+				reviewedText = t;
+				System.out.println("Pronadjen text");
+				break;
+			}
+		}
+		for(FormSubmissionDTO item: formData){
+			String fieldId = item.getFieldId();
+			System.out.println("Id polja je "+fieldId);
+			if(fieldId.equals("lista")){
+				for(String username:item.getCategories()){
+					System.out.println("username je "+username);
+					User u = userService.findUserByUsername(username);
+					System.out.println("Ime je "+u.getName()+" "+u.getSurname());
+					reviewedText.getReviewersText().add(u);
+					u.getReveiwedTexts().add(reviewedText);
+					userService.save(u);
+				}
+			}
+		}
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 }

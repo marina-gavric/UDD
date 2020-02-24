@@ -1,8 +1,5 @@
 package com.example.demop.services;
-import com.example.demop.model.Keyword;
-import com.example.demop.model.SearchDTO;
-import com.example.demop.model.TextDTO;
-import com.example.demop.model.User;
+import com.example.demop.model.*;
 import com.example.demop.repository.TextRepository;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
@@ -18,10 +15,18 @@ import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-
+import org.camunda.bpm.engine.RuntimeService;
+import org.camunda.bpm.engine.TaskService;
+import org.camunda.bpm.engine.task.Task;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Map;
+import org.elasticsearch.index.query.MoreLikeThisQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.*;
 
 
 @Service
@@ -29,10 +34,20 @@ public class SearchService {
 
     @Autowired
     TextRepository textRepository;
+    @Autowired
+    UserServiceImpl userService;
+    @Autowired
+    MagazineServiceImpl magazineService;
 
     @Qualifier("restHighLevelCient")
     @Autowired
     RestHighLevelClient restClient;
+
+    @Autowired
+    TaskService taskService;
+
+    @Autowired
+    RuntimeService runtimeService;
 
     public ArrayList<TextDTO> search(ArrayList<SearchDTO> searchFields) throws IOException {
         System.out.println("Usao u searchService");
@@ -132,6 +147,7 @@ public class SearchService {
         }
         return qb;
     }
+
 
 
 }

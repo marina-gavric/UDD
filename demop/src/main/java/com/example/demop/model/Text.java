@@ -45,6 +45,14 @@ public class Text {
     )
     private Set<User> coauthorText = new HashSet<User>();
 
+    @ManyToMany(cascade = {CascadeType.ALL})
+    @JoinTable(
+            name = "Text_Reveiwer",
+            joinColumns = { @JoinColumn(name = "text_id") },
+            inverseJoinColumns = { @JoinColumn(name = "user_id") }
+    )
+    private Set<User> reviewersText = new HashSet<User>();
+
     @OneToMany(mappedBy = "text", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<Keyword>  keywords = new HashSet<Keyword>();
@@ -124,5 +132,13 @@ public class Text {
 
     public void setPdf(String pdf) {
         this.pdf = pdf;
+    }
+
+    public Set<User> getReviewersText() {
+        return reviewersText;
+    }
+
+    public void setReviewersText(Set<User> reviewersText) {
+        this.reviewersText = reviewersText;
     }
 }

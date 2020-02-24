@@ -28,7 +28,7 @@ public class SendingNotificationService  implements JavaDelegate {
     @Override
     public void execute(DelegateExecution execution) throws Exception {
         // TODO Auto-generated method stub
-        System.out.println("U slanju notifikacije je");
+     /*   System.out.println("U slanju notifikacije je");
         String username =(String)execution.getVariable("author");
         User user = userService.findUserByUsername(username);
 
@@ -52,6 +52,8 @@ public class SendingNotificationService  implements JavaDelegate {
         }catch( Exception e ){
             System.out.println("Ima greska");
         }
+        */
+
     }
 
 }

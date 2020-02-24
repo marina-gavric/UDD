@@ -18,12 +18,12 @@ public class OutTimeService implements JavaDelegate {
     @Override
     public void execute(DelegateExecution execution) throws Exception {
         System.out.println("U slanju notifikacije je");
-        String username =(String)execution.getVariable("author");
+     /*   String username =(String)execution.getVariable("author");
         User user = userService.findUserByUsername(username);
         try {
             mailService.sendOutTimeNotification(user);
         }catch( Exception e ){
             System.out.println("Ima greska");
-        }
+        }*/
     }
 }

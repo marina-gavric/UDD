@@ -64,6 +64,12 @@ public class User implements UserDetails{
 	@Column(name = "type")
 	private String type;
 
+	@Column(name = "longitude")
+	private float longitude;
+
+	@Column(name = "latitude")
+	private float latitude;
+
 	@ManyToMany(cascade =  {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
 	@JoinTable(name = "User_Roles",
 			joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
@@ -86,6 +92,9 @@ public class User implements UserDetails{
 
 	@ManyToMany(mappedBy = "editorMagazine")
 	private Set<Magazine> editedMagazines = new HashSet<Magazine>();
+
+	@ManyToMany(mappedBy = "reviewersText")
+	private Set<Text> reveiwedTexts = new HashSet<Text>();
 
 	@OneToMany(mappedBy = "mainEditor", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JsonIgnore
@@ -357,5 +366,29 @@ public class User implements UserDetails{
 
 	public void setPayed(boolean payed) {
 		this.payed = payed;
+	}
+
+	public float getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(float longitude) {
+		this.longitude = longitude;
+	}
+
+	public float getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(float latitude) {
+		this.latitude = latitude;
+	}
+
+	public Set<Text> getReveiwedTexts() {
+		return reveiwedTexts;
+	}
+
+	public void setReveiwedTexts(Set<Text> reveiwedTexts) {
+		this.reveiwedTexts = reveiwedTexts;
 	}
 }

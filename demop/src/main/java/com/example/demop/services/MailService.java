@@ -122,7 +122,7 @@ public class MailService {
 	public void sendNotificationScience(User user) throws MailException, InterruptedException, MessagingException {
 
 		System.out.println("Slanje emaila...");
-		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+		/*MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, false, "utf-8");
 		String htmlMsg = "<h3>Hi "+user.getName()+"</h3><br> <p>We want to inform you that there is text where you are editor.</p>";
 
@@ -130,7 +130,7 @@ public class MailService {
 		helper.setTo(user.getMail());
 		helper.setSubject("Notification");
 		helper.setFrom(env.getProperty("spring.mail.username"));
-		javaMailSender.send(mimeMessage);
+		javaMailSender.send(mimeMessage);*/
 		System.out.println("Email poslat!");
 	}
 	@Async

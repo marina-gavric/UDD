@@ -4,12 +4,12 @@ import java.util.ArrayList;
 
 public class UserUnit {
     private String username;
-    private ArrayList<Float> locationPoints = new ArrayList<Float>();
+    private ArrayList<Float> location = new ArrayList<Float>();
 
     public UserUnit(){}
-    public UserUnit(String u, Float longitude, Float latitude){
-        locationPoints.add(latitude);
-        locationPoints.add(longitude);
+    public UserUnit(String u, Float latitude, Float longitude){
+        location.add(latitude);
+        location.add(longitude);
         setUsername(u);
     }
 
@@ -22,11 +22,11 @@ public class UserUnit {
         this.username = username;
     }
 
-    public ArrayList<Float> getLocationPoints() {
-        return locationPoints;
+    public ArrayList<Float> getLocation() {
+        return location;
     }
 
-    public void setLocationPoints(ArrayList<Float> locationPoints) {
-        this.locationPoints = locationPoints;
+    public void setLocation(ArrayList<Float> location) {
+        this.location = location;
     }
 }

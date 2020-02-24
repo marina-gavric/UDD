@@ -22,7 +22,7 @@ public class SendingMailEditorService implements JavaDelegate {
     public void execute(DelegateExecution execution) throws Exception {
 
     System.out.println("U sending maileditor je");
-    String username =(String)execution.getVariable("scienceEditor");
+   /* String username =(String)execution.getVariable("editor");
     System.out.println(username);
     User user = userService.findUserByUsername(username);
     System.out.println("Pronadjen user sa "+user.getName());
@@ -30,5 +30,7 @@ public class SendingMailEditorService implements JavaDelegate {
         mailService.sendNotificationScience(user);
     }catch( Exception e ){
         System.out.println("Ima greska");
-    }}
+    }
+    */}
+
 }

@@ -11,7 +11,7 @@
               <button  mat-raised-button type="button" (click)="moreFilter()" color="gray">More</button>
             
               <mat-select id="options" name="lista" matInput multiple   ngModel >
-                        <mat-option *ngFor="let item of enumValues" value={{item.id}}>
+                        <mat-option *ngFor="let item of enumValues" value={{item.username}}>
                             {{item.name}} , {{item.surname}}
                         </mat-option>
                 </mat-select>

@@ -51,6 +51,9 @@ export class RepositoryService {
   loadReviewersScience(processId) {
     return this.httpClient.get('http://localhost:8080/magazine/loadRevScience/'.concat(processId)) as Observable<any>;
   }
+  loadReviewersLocation(processId) {
+    return this.httpClient.get('http://localhost:8080/magazine/loadRevLocation/'.concat(processId)) as Observable<any>;
+  }
   loadTaskTheme(taskId) {
     return this.httpClient.get('http://localhost:8080/magazine/loadTaskTheme/'.concat(taskId)) as Observable<any>;
   }
@@ -76,4 +79,8 @@ export class RepositoryService {
   searchTexts(searchFields) {
     return this.httpClient.post('http://localhost:8080/magazine/search', searchFields) as Observable<any>;
   }
+  chooseReviewers(data, processId) {
+    return this.httpClient.post('http://localhost:8080/magazine/chooseReviewers/'.concat(processId), data) as Observable<any>;
+  }
+
 }
