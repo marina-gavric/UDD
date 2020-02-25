@@ -8,4 +8,5 @@ export class TextDTO {
     pdf: string;
     higlight: string;
     authors: string;
+    openAccess: string;
 }

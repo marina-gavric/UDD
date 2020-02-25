@@ -53,4 +53,10 @@ export class SearchComponent implements OnInit {
     this.conditions = new Array();
     this.searchDone = false;
   }
+  buy(text) {
+    console.log('usao u buy ' + text.title);
+  }
+  downloadText(text) {
+    console.log('Download text ' + text.title);
+  }
 }

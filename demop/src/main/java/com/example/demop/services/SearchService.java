@@ -101,7 +101,7 @@ public class SearchService {
 
             Map<String, Object> sourceAsMap = hit.getSourceAsMap();
             textDTO.setScientificArea((String)sourceAsMap.get("scientificArea"));
-
+            textDTO.setOpenAccess(((String) sourceAsMap.get("openAccess")));
             String highlightStirng = "";
 
             Map<String, HighlightField> highlightFields = hit.getHighlightFields();

@@ -33,7 +33,7 @@ public class AddingCoAuthorInfoService implements JavaDelegate {
         String title="";
         String magId="";
         for(FormSubmissionDTO item: caInfo){
-            if(item.getFieldId().equals("mailC")){
+            if(item.getFieldId().equals("mail_c")){
                 mail = item.getFieldValue();
                 System.out.println("mail");
                 break;
@@ -87,6 +87,7 @@ public class AddingCoAuthorInfoService implements JavaDelegate {
             if(t.getTitle().equals(title) && t.getMagazine().getId() == Long.parseLong(magId)){
                 System.out.println("Unutar if-a");
                 if(user != null){
+                    t.getCoauthorText().add(user);
                     user.getCoauthoredTexts().add(t);
                     userService.save(user);
                     System.out.println("Sacuvan koautor");

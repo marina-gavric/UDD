@@ -56,6 +56,10 @@
                               </div>
                               <span>Authors: {{item.authors}}</span>
                               </mat-card-content>
+                              <mat-card-actions>
+                                <button mat-raised-button *ngIf="item.openAccess == 'no'" (click)="buy(task)">Buy</button>	
+                                <button mat-raised-button *ngIf="item.openAccess == 'yes'" (click)="downloadText(task)">Download</button>              
+                              </mat-card-actions>
                     </mat-card>
                     <button  mat-raised-button type="button" (click)="searchAgain()" color="gray">New search</button>
 

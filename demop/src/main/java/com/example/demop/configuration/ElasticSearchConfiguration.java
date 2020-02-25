@@ -33,8 +33,8 @@ public class ElasticSearchConfiguration {
     @PostConstruct
     public void postConstruct() throws IOException {
 
-       // DeleteIndexRequest request1 = new DeleteIndexRequest("index");
-        //AcknowledgedResponse deleteIndexResponse1 = restClient.indices().delete(request1, RequestOptions.DEFAULT);
+        DeleteIndexRequest request1 = new DeleteIndexRequest("index");
+        AcknowledgedResponse deleteIndexResponse1 = restClient.indices().delete(request1, RequestOptions.DEFAULT);
 
         GetIndexRequest getIndexrequest = new GetIndexRequest("index");
         boolean existIndex = restClient.indices().exists(getIndexrequest, RequestOptions.DEFAULT);
@@ -92,6 +92,14 @@ public class ElasticSearchConfiguration {
                     }
                     builder.endObject();
 
+                    builder.startObject("openAccess");
+                    {
+                        builder.field("store", "true");
+                        builder.field("type", "text");
+                        builder.field("analyzer", "serbian");
+                    }
+                    builder.endObject();
+
                     builder.startObject("authors");
                     {
                         builder.field("store", "true");
@@ -113,8 +121,8 @@ public class ElasticSearchConfiguration {
             mappingRequest.source(builder);
             restClient.indices().putMapping(mappingRequest, RequestOptions.DEFAULT);
         }
-        //DeleteIndexRequest request = new DeleteIndexRequest("reviewers");
-        //AcknowledgedResponse deleteIndexResponse = restClient.indices().delete(request, RequestOptions.DEFAULT);
+        DeleteIndexRequest request = new DeleteIndexRequest("reviewers");
+        AcknowledgedResponse deleteIndexResponse = restClient.indices().delete(request, RequestOptions.DEFAULT);
 
         GetIndexRequest getRevrequest = new GetIndexRequest("reviewers");
 

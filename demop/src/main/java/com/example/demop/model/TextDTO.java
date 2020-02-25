@@ -11,7 +11,7 @@ public class TextDTO {
     private String pdf;
     private String higlight;
     private String authors;
-
+    private  String openAccess;
     public TextDTO(){}
 
     public Long getId() {
@@ -84,5 +84,13 @@ public class TextDTO {
 
     public void setAuthors(String author) {
         this.authors = author;
+    }
+
+    public String getOpenAccess() {
+        return openAccess;
+    }
+
+    public void setOpenAccess(String openAccess) {
+        this.openAccess = openAccess;
     }
 }

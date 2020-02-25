@@ -8,8 +8,11 @@ public class TextUnit {
     private String content;
     private String scientificArea;
     private String authors;
+    private String openAccess;
 
-    public TextUnit(){}
+    public TextUnit(){
+        this.openAccess="yes";
+    }
 
     public TextUnit(String author, String magazine, String title, String keywords, String content, String scientificArea){
         this.magazine = magazine;
@@ -17,7 +20,7 @@ public class TextUnit {
         this.title = title;
         this.keywords = keywords;
         this.content = content;
-        this.scientificArea = scientificArea;
+        this.setScientificArea(scientificArea);
     }
 
 
@@ -28,7 +31,7 @@ public class TextUnit {
         this.title = title;
         this.keywords = keywords;
         this.content = content;
-        this.scientificArea = scientificArea;
+        this.setScientificArea(scientificArea);
     }
 
     public long getId() {
@@ -85,5 +88,13 @@ public class TextUnit {
 
     public void setAuthors(String author) {
         this.authors = author;
+    }
+
+    public String getOpenAccess() {
+        return openAccess;
+    }
+
+    public void setOpenAccess(String openAccess) {
+        this.openAccess = openAccess;
     }
 }

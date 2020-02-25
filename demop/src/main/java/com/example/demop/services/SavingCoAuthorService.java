@@ -24,6 +24,7 @@ public class SavingCoAuthorService implements JavaDelegate {
 
     @Override
     public void execute(DelegateExecution execution) throws Exception {
+        System.out.println("Usao u savingCoauthor service");
         List<FormSubmissionDTO> caInfo = (List<FormSubmissionDTO>)execution.getVariable("addCA");
         List<FormSubmissionDTO> textInfo = (List<FormSubmissionDTO>)execution.getVariable("textData");
         List<FormSubmissionDTO> magInfo = (List<FormSubmissionDTO>)execution.getVariable("chosenMagazine");
@@ -32,7 +33,7 @@ public class SavingCoAuthorService implements JavaDelegate {
         String title="";
         String magId="";
         for(FormSubmissionDTO item: caInfo){
-            if(item.getFieldId().equals("mailC")){
+            if(item.getFieldId().equals("mail_c")){
                 mail = item.getFieldValue();
                 System.out.println("mail");
                 break;
@@ -53,12 +54,25 @@ public class SavingCoAuthorService implements JavaDelegate {
             }
         }
         List<Text> allT = textService.getAll();
-        User user = userService.findUserByMail(mail);
+        System.out.println("Dobijen mail je "+mail);
+        User user = null;
+        for(User u : userService.getAll()){
+            String mailU=u.getMail();
+            System.out.println("Mail je "+mailU);
+            if(mailU.equals(mail)){
+                System.out.println("Pronadjen user ");
+                user = u;
+                break;
+            }
+        }
 
         for(Text t: allT){
+            System.out.println("Prolazimo kroz tekstove");
             if(t.getTitle().equals(title) && t.getMagazine().getId() == Long.parseLong(magId)){
                 System.out.println("Unutar if-a");
                 if(user != null){
+                    System.out.println("Ima usera");
+                    t.getCoauthorText().add(user);
                     user.getCoauthoredTexts().add(t);
                     userService.save(user);
                     System.out.println("Sacuvan koautor");

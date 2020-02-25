@@ -976,6 +976,11 @@ public class MagazineController {
 		textUnit.setTitle(reviewedText.getTitle());
 		textUnit.setScientificArea(reviewedText.getScientificArea().getName());
 		textUnit.setKeywords(keywords);
+		if(magazine.isOpenaccess()){
+		    textUnit.setOpenAccess("yes");
+        }else{
+		    textUnit.setOpenAccess("no");
+        }
 		//treba izmeniti
 
 		//D:\UDD_GIT\UDD\demop\files\01-intro.pdf
