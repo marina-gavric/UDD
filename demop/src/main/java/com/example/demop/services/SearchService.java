@@ -73,50 +73,48 @@ public class SearchService {
 
         for (SearchHit hit : searchResponse.getHits()) {
             System.out.println("Hit");
+            Map<String, Object> sourceAsMap = hit.getSourceAsMap();
             long textId = Long.parseLong(hit.getId());
-            com.example.demop.model.Text text = textRepository.findOneById(textId);
             TextDTO textDTO = new TextDTO();
-            textDTO.setId(text.getId());
-            textDTO.setTitle(text.getTitle());
-            textDTO.setMagazine(text.getMagazine().getTitle());
+            int id = (Integer) sourceAsMap.get("id");
+            textDTO.setId((long) id);
+            textDTO.setTitle((String)sourceAsMap.get("title"));
+            textDTO.setMagazine((String)sourceAsMap.get("magazine"));
             String keywords="";
-            for(Keyword k : text.getKeywords()){
+          /*  for(Keyword k : text.getKeywords()){
                 if(keywords.equals("")){
                     keywords+=k.getName();
                 }else{
                     keywords+=", " + k.getName();
                 }
-            }
-            textDTO.setKeywords(keywords);
-            String coauthors="";
+            }*/
+            textDTO.setKeywords((String)sourceAsMap.get("keywords"));
+          /*  String coauthors="";
             for(User u : text.getCoauthorText()){
                 if(coauthors.equals("")){
                     coauthors+=u.getName() + " "+u.getSurname();
                 }else{
                     coauthors+=", " + u.getName() + " "+u.getSurname();
                 }
-            }
-            textDTO.setAuthors(text.getAuthor().getName()+", "+text.getAuthor().getSurname());
-            textDTO.setKeywords(keywords);
-
-            Map<String, Object> sourceAsMap = hit.getSourceAsMap();
+            }*/
+            textDTO.setAuthors((String)sourceAsMap.get("authors"));
             textDTO.setScientificArea((String)sourceAsMap.get("scientificArea"));
-            textDTO.setOpenAccess(((String) sourceAsMap.get("openAccess")));
-            String highlightStirng = "";
+            textDTO.setOpenAccess((String) sourceAsMap.get("openAccess"));
+            String highlightString = "";
 
             Map<String, HighlightField> highlightFields = hit.getHighlightFields();
             HighlightField highlight = highlightFields.get("content");
             if(highlight == null) {
                 String documentContent = (String) sourceAsMap.get("content");
-                highlightStirng = documentContent.substring(0, 200) + "...";
+                highlightString = documentContent.substring(0, 200) + "...";
             }else {
                 Text[] fragments = highlight.fragments();
                 for(Text textFragment : fragments) {
-                    highlightStirng += textFragment.toString() + "... ";
+                    highlightString += textFragment.toString() + "... ";
                 }
             }
 
-            textDTO.setHiglight(highlightStirng);
+            textDTO.setHiglight(highlightString);
             retVal.add(textDTO);
         }
         return retVal;
