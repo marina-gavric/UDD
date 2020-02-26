@@ -18,6 +18,7 @@ export class FillCoauthorComponent implements OnInit {
   private processInstance = '';
   private enumValues = [];
   private areas = [];
+  private adresa = '';
   private processId = '';
   // tslint:disable-next-line:max-line-length
   constructor(private route: ActivatedRoute, private magazineService: MagazineService, private areaService: AreaService, private repositoryService: RepositoryService) { 
@@ -47,25 +48,45 @@ export class FillCoauthorComponent implements OnInit {
     console.log(value);
     const o = new Array();
     console.log('Pritisnut submit');
-
+    let address = '';
     // tslint:disable-next-line:forin
     for (const property in value) {
+      if ( property == 'cityC') {
+        address += '+' + value[property].replace(' ', '+');
+      }
+      if ( property == 'countryC') {
+        address += '+' + value[property].replace(' ', '+');
+       }
       o.push({fieldId : property, fieldValue : value[property]});
     }
     console.log(o);
-    const x = this.magazineService.fillCA(o, this.formFieldsDto.taskId);
-    x.subscribe(
-      res => {
-        if (res == true) {
-          window.location.href = 'addCoauthor/' + this.processId;
+    console.log(address);
+    this.repositoryService.findLocation(address).subscribe(response => {
+      console.log('dosao u ispis');
+      console.log(response);
+      const lon = response[0].lon;
+      const lat = response[0].lat;
+      console.log(lon);
+      console.log(lat);
+      o.push({fieldId : 'longitude', fieldValue : lon});
+      o.push({fieldId : 'latitude', fieldValue : lat});
+      console.log('konacan ispis');
+      console.log(o);
+      const x = this.magazineService.fillCA(o, this.formFieldsDto.taskId);
+
+      x.subscribe(
+        res => {
+          if (res == true) {
+            window.location.href = 'addCoauthor/' + this.processId;
+          } else {
+            window.location.href = '';
+          }
+        },
+        err => {
+          console.log('Error occured');
         }
-        
-       // window.location.href = '';
-      },
-      err => {
-        console.log('Error occured');
-      }
-    );
-    }
+      );
+    });
+  }
 
 }

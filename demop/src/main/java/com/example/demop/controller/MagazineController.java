@@ -493,7 +493,7 @@ public class MagazineController {
 		Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
 		String processInstanceId = task.getProcessInstanceId();
 		
-		for(FormSubmissionDTO item: formData){
+		/*for(FormSubmissionDTO item: formData){
 			String fieldId = item.getFieldId();
 			System.out.println("Id polja je "+fieldId);
 			System.out.println("Vrednost polja je "+item.getFieldValue());
@@ -513,7 +513,7 @@ public class MagazineController {
 			}
 		
 			
-		}
+		}*/
 		
 		try{
 			runtimeService.setVariable(processInstanceId, "updateData", formData);

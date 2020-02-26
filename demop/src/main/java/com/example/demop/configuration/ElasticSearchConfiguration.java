@@ -33,11 +33,11 @@ public class ElasticSearchConfiguration {
     @PostConstruct
     public void postConstruct() throws IOException {
 
-        //DeleteIndexRequest request1 = new DeleteIndexRequest("index");
-        //AcknowledgedResponse deleteIndexResponse1 = restClient.indices().delete(request1, RequestOptions.DEFAULT);
+        DeleteIndexRequest request1 = new DeleteIndexRequest("index");
+        AcknowledgedResponse deleteIndexResponse1 = restClient.indices().delete(request1, RequestOptions.DEFAULT);
 
-        GetIndexRequest getIndexrequest = new GetIndexRequest("index");
-        boolean existIndex = restClient.indices().exists(getIndexrequest, RequestOptions.DEFAULT);
+        GetIndexRequest indexrequest1 = new GetIndexRequest("index");
+        boolean existIndex = restClient.indices().exists(indexrequest1, RequestOptions.DEFAULT);
         if(existIndex == false) {
             //prvi put ulazi u if, i kreiramo index
             CreateIndexRequest createIndexRequest = new CreateIndexRequest("index");
@@ -121,8 +121,8 @@ public class ElasticSearchConfiguration {
             mappingRequest.source(builder);
             restClient.indices().putMapping(mappingRequest, RequestOptions.DEFAULT);
         }
-        //DeleteIndexRequest request = new DeleteIndexRequest("reviewers");
-        //AcknowledgedResponse deleteIndexResponse = restClient.indices().delete(request, RequestOptions.DEFAULT);
+        DeleteIndexRequest request = new DeleteIndexRequest("reviewers");
+        AcknowledgedResponse deleteIndexResponse = restClient.indices().delete(request, RequestOptions.DEFAULT);
 
         GetIndexRequest getRevrequest = new GetIndexRequest("reviewers");
 
@@ -159,14 +159,14 @@ public class ElasticSearchConfiguration {
             restClient.indices().putMapping(mappingReq, RequestOptions.DEFAULT);
             //indeksiranje recenzenata
 
-            ArrayList<UserUnit> recenzenti = new ArrayList<UserUnit>();
-            recenzenti.add(new UserUnit("rev1",(float)44.7866, (float)20.4489));
-            recenzenti.add(new UserUnit("rev2",(float)40.7128, (float)-74.0060));
-            recenzenti.add(new UserUnit("rev3",(float)44.7866, (float)20.4489));
-            recenzenti.add(new UserUnit("rev4",(float)48.2082, (float)16.3738));
+            ArrayList<UserUnit> reviewersList = new ArrayList<UserUnit>();
+            reviewersList.add(new UserUnit("rev1",(float)44.7866, (float)20.4489));
+            reviewersList.add(new UserUnit("rev2",(float)40.7128, (float)-74.0060));
+            reviewersList.add(new UserUnit("rev3",(float)44.7866, (float)20.4489));
+            reviewersList.add(new UserUnit("rev4",(float)48.2082, (float)16.3738));
 
-            for(UserUnit rec : recenzenti) {
-                System.out.println("indeksiranje recenzenta"+rec.getUsername());
+            for(UserUnit rec : reviewersList) {
+                System.out.println("Rev with username "+rec.getUsername());
                 IndexRequest request2 = new IndexRequest("reviewers");
                 request2.id(rec.getUsername());
                 ObjectMapper mapper = new ObjectMapper();

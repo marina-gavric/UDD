@@ -67,6 +67,7 @@ public class AddingCoAuthorInfoService implements JavaDelegate {
         }
         user.setUsername(mail);
         for(FormSubmissionDTO item: fillInfo){
+            System.out.println("ID: "+ item.getFieldId()+" VALUE: "+item.getFieldValue());
             if(item.getFieldId().equals("nameC")){
                 user.setName(item.getFieldValue());
             }
@@ -78,6 +79,12 @@ public class AddingCoAuthorInfoService implements JavaDelegate {
             }
             if(item.getFieldId().equals("countryC")){
                 user.setCountry(item.getFieldValue());
+            }
+            if(item.getFieldId().equals("longitude")){
+                user.setLongitude(Float.parseFloat(item.getFieldValue()));
+            }
+            if(item.getFieldId().equals("latitude")){
+                user.setLatitude(Float.parseFloat(item.getFieldValue()));
             }
 
         }

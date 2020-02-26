@@ -60,6 +60,12 @@ export class RepositoryService {
   loadTaskTheme(taskId) {
     return this.httpClient.get('http://localhost:8080/magazine/loadTaskTheme/'.concat(taskId)) as Observable<any>;
   }
+  findLocation(adresa: string) {
+    console.log('adresa: ' + adresa);
+    return this.httpClient.get('https://nominatim.openstreetmap.org/search?q=%20"+' + adresa + '+"%20&format=json');
+  }
+
+
   completeTask(task) {
     console.log(task.name);
     console.log(task.taskId);

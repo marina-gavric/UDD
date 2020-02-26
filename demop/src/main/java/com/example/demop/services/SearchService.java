@@ -50,7 +50,7 @@ public class SearchService {
     RuntimeService runtimeService;
 
     public ArrayList<TextDTO> search(ArrayList<SearchDTO> searchFields) throws IOException {
-        System.out.println("Usao u searchService");
+        System.out.println("In searchService");
         SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
 
         HighlightBuilder highlightBuilder = new HighlightBuilder();
@@ -80,23 +80,7 @@ public class SearchService {
             textDTO.setId((long) id);
             textDTO.setTitle((String)sourceAsMap.get("title"));
             textDTO.setMagazine((String)sourceAsMap.get("magazine"));
-            String keywords="";
-          /*  for(Keyword k : text.getKeywords()){
-                if(keywords.equals("")){
-                    keywords+=k.getName();
-                }else{
-                    keywords+=", " + k.getName();
-                }
-            }*/
             textDTO.setKeywords((String)sourceAsMap.get("keywords"));
-          /*  String coauthors="";
-            for(User u : text.getCoauthorText()){
-                if(coauthors.equals("")){
-                    coauthors+=u.getName() + " "+u.getSurname();
-                }else{
-                    coauthors+=", " + u.getName() + " "+u.getSurname();
-                }
-            }*/
             textDTO.setAuthors((String)sourceAsMap.get("authors"));
             textDTO.setScientificArea((String)sourceAsMap.get("scientificArea"));
             textDTO.setOpenAccess((String) sourceAsMap.get("openAccess"));
@@ -106,7 +90,7 @@ public class SearchService {
             HighlightField highlight = highlightFields.get("content");
             if(highlight == null) {
                 String documentContent = (String) sourceAsMap.get("content");
-                highlightString = documentContent.substring(0, 200) + "...";
+                highlightString = documentContent.substring(0, 180) + "...";
             }else {
                 Text[] fragments = highlight.fragments();
                 for(Text textFragment : fragments) {

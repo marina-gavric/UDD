@@ -75,19 +75,20 @@ public class LocationService {
         }
         Set<User> coauthors = text.getCoauthorText();
 
-        ArrayList<UserDTO> results = geoDistanceUpit(user.getLatitude(),user.getLongitude());
+        ArrayList<UserDTO> results = distanceQuery(user.getLatitude(),user.getLongitude());
         for(User u : coauthors) {
-            results.retainAll(geoDistanceUpit(u.getLatitude(),u.getLongitude()));
+            results.retainAll(distanceQuery(u.getLatitude(),u.getLongitude()));
         }
 
         return  results;
     }
 
-    private ArrayList<UserDTO> geoDistanceUpit(float sirina, float duzina) throws IOException{
-        System.out.println("Usao u geo upit "+duzina+"sirina "+sirina);
+    private ArrayList<UserDTO> distanceQuery(float latitude, float longitude) throws IOException{
         BoolQueryBuilder qb = new BoolQueryBuilder();
+        System.out.println("In distance "+longitude+"sirina "+latitude);
+
         qb.must(QueryBuilders.matchAllQuery());
-        qb.mustNot(QueryBuilders.geoDistanceQuery("location").distance("100km").point(sirina,duzina));
+        qb.mustNot(QueryBuilders.geoDistanceQuery("location").distance("100km").point(latitude,longitude));
 
         SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
         sourceBuilder.query(qb);

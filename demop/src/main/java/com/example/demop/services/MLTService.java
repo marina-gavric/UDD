@@ -69,19 +69,19 @@ public class MLTService {
             }
         }
 
-        //D:\UDD_GIT\UDD\demop\files\01-intro.pdf
+        //D:\UDD_GIT\UDD\demop\files\bajka.pdf
         String [] pom = text.getPdf().split("\\\\");
         String fileName = pom[5];
         System.out.println("Naziv fajla je "+fileName);
         File file = new File("files/" +fileName);
-        String content = getText(file);
+        String content = getContent(file);
         System.out.println("Sadrzaj je "+content);
 
         String[] arrayOfFields = new String[] {"content"};
         String[] contentArray = new String[] {content};
 
         MoreLikeThisQueryBuilder mltqb = new MoreLikeThisQueryBuilder(arrayOfFields, contentArray , null);
-        mltqb.analyzer("serbian").minDocFreq(1).maxQueryTerms(12).minimumShouldMatch("60%");
+        mltqb.analyzer("serbian").minDocFreq(1).maxQueryTerms(50).minimumShouldMatch("60%");
         System.out.println("tu");
 
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
@@ -93,7 +93,7 @@ public class MLTService {
         Set<User> reviewers = new HashSet<User>();
         System.out.println("Ispod hasha");
         if(searchResponse.getHits()==null){
-            System.out.println("Nema pogofaka");
+            System.out.println("Nema pogodaka");
         }
         for(SearchHit hit : searchResponse.getHits()) {
             System.out.println("Usao u for searchHit");
@@ -106,7 +106,6 @@ public class MLTService {
                 System.out.println("Recenziran je text");
                 for(User reviewer:foundText.getReviewersText()) {
                     if(!reviewers.contains(reviewer)) {
-                        System.out.println(" more like this rec username "+reviewer.getUsername());
                         reviewers.add(reviewer);
                     }else{
                         System.out.println("Vec ga sadrzi");
@@ -117,14 +116,13 @@ public class MLTService {
             }
 
         }
-        System.out.println("Kraj");
         for(User u : reviewers){
             resultList.add(new UserDTO(u));
             System.out.println("Dodat recenzent "+u.getName()+" "+u.getUsername());
         }
         return  resultList;
     }
-    public String getText(File file) {
+    public String getContent(File file) {
         try {
             PDFParser parser = new PDFParser(new RandomAccessFile(file, "r"));
             parser.parse();

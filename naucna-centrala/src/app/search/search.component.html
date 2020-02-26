@@ -51,8 +51,8 @@
                                 <mat-card-subtitle>{{item.magazine}}</mat-card-subtitle>
                             </mat-card-header>
                             <mat-card-content>
-                              <div>
-                                  {{item.higlight}}
+                              <div [innerHtml]="item.higlight">
+                               
                               </div>
                               <span>Authors: {{item.authors}}</span>
                               </mat-card-content>
